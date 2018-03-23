@@ -1,1 +1,1 @@
-# DXVACheckShowRenderTargetFormat
+# DXVAShowRenderTargetFormat
