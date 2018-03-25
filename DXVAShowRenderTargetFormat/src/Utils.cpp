@@ -94,26 +94,24 @@ std::string Utils::D3DFORMATToStr(D3DFORMAT format)
 
         default:
         {
-            union
-            {
-                D3DFORMAT format;
-                char data[5];
-            } helper;
-            helper.format = format;
-            helper.data[4] = 0;
+            char data[5] = {0};
+            data[0] = format & 0xFF;
+            data[1] = (format >> 8) & 0xFF;
+            data[2] = (format >> 16) & 0xFF;
+            data[3] = (format >> 24) & 0xFF;
             bool printable = true;
             for (auto i = 0; i < 4; ++i)
             {
-                if (!isprint(helper.data[i]))
+                if (!isascii(data[i]))
                 {
                     printable = false;
                     break;
                 }
             }
             if (printable)
-                ret = std::string(helper.data);
+                ret = std::string(data);
             else
-                ret = std::to_string(helper.format);
+                ret = std::to_string(format);
             break;
         }
     }
