@@ -4,6 +4,8 @@
 #include <initguid.h>
 #include <Dxva2api.h>
 
+#include "Utils.h"
+
 #include <stdio.h>
 
 #pragma comment (lib, "d3d9.lib")
@@ -105,16 +107,8 @@ void initD3D(HWND hWnd)
         printf("hr = 0x%08X", hr);
     }
 
-    union convertformat
-    {
-        D3DFORMAT format;
-        char data[4];
-    };
-
     for (unsigned format = 0; format < D3DFMT_FORCE_DWORD; ++format)
     {
-        convertformat t;
-        t.format = (D3DFORMAT)format;
         DXVA2_VideoDesc g_VideoDesc;
         g_VideoDesc.SampleWidth = 800;
         g_VideoDesc.SampleHeight = 600;
@@ -138,15 +132,13 @@ void initD3D(HWND hWnd)
 
         if (FAILED(hr))
         {
-            //printf("GetVideoProcessorRenderTargets failed: 0x%x.\n", hr);
             continue;
         }
 
-        printf("From %d[%c %c %c %c] to:", format, t.data[0], t.data[1], t.data[2], t.data[3]);
+        printf("From %s to:", Utils::D3DFORMATToStr((D3DFORMAT)format).c_str());
         for (i = 0; i < count; i++)
         {
-            t.format = formats[i];
-            printf(" %d[%c %c %c %c]", formats[i], t.data[0], t.data[1], t.data[2], t.data[3]);
+            printf(" %s,", Utils::D3DFORMATToStr(formats[i]).c_str());
         }
         printf("\n");
 
