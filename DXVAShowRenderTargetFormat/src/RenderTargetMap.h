@@ -31,7 +31,7 @@ public:
 
     const RenderTargetMapType& GetMap() const;
 
-    static void PrintRTM(const RenderTargetMapType& rtm);
+    static void PrintRTM(const RenderTargetMapType& rtm, bool only_targets = true);
 
 private:
 
